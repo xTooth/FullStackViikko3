@@ -17,7 +17,7 @@ app.use(express.static('build'))
 
 
 
-app.get('/info', (req, res, next) => {
+app.get('/info', (req,res) => {
   Person.find({}, function (err, results) {
     let count = results.length
     const date = new Date().toString().replace(/.\w*/, '')
@@ -87,7 +87,7 @@ app.use(unknownEndpoint)
 const errorHandler = (error, req, res, next) => {
   console.error(error.message)
 
-  if (error.name === 'CastError' && error.kind == 'ObjectId') {
+  if (error.name === 'CastError' && error.kind === 'ObjectId') {
     return res.status(400).send({ error: 'bad id' })
   }   else if (error.name === 'ValidationError') {
     return res.status(400).json({ error: error.message })
